@@ -5,6 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
    config.vm.box_check_update = false
    config.vm.network "public_network"
+   config.vm.synced_folder ".", "/registry"
    config.vm.provider "virtualbox" do |vb|
      vb.gui = false
      vb.memory = "1024"     
@@ -15,6 +16,6 @@ Vagrant.configure("2") do |config|
      sh get-docker.sh
      sudo usermod -aG docker vagrant
      sudo docker pull registry
-     sudo docker run -d -p 5000:5000 --restart=always --name registry registry
+     sudo docker run -d -p 5000:5000 --restart=always -v /registry:/var/lib/registry --name registry registry
    SHELL
 end
